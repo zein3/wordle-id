@@ -5,25 +5,34 @@ import { ref } from 'vue';
 const rows = ref([
   {
     id: 0,
-    isLocked: false,
-    isSelected: false
+    isSelected: true
   },
   {
     id: 1,
-    isLocked: false,
-    isSelected: true
+    isSelected: false
   },
   {
     id: 2,
-    isLocked: false,
-    isSelected: true
+    isSelected: false
+  },
+  {
+    id: 3,
+    isSelected: false
+  },
+  {
+    id: 4,
+    isSelected: false
+  },
+  {
+    id: 5,
+    isSelected: false
   },
 ]);
 
 
-function selectRow(row) {
+function selectRow(id) {
   rows.value = rows.value.map((r) => {
-    return (r.id == row.id)
+    return (r.id == id)
       ? {
         ...r,
         isSelected: true,
@@ -41,9 +50,8 @@ function selectRow(row) {
     <Row
       v-for="row in rows"
       :id="row.id"
-      :isLocked="row.isLocked"
       :isSelected="row.isSelected"
-      @click="selectRow(row)"
+      @click="selectRow(row.id)"
     />
   </div>
 </template>
