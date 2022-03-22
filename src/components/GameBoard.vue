@@ -2,8 +2,15 @@
 import Row from './WordleRow.vue';
 import { ref } from 'vue';
 
+const wordleWord = 'hello';
+
 const currentId = ref(0);
-const rows = ref([
+const rows = ref([]);
+
+
+function startGame() {
+  currentId.value = 0;
+  rows.value = [
   {
     id: 0,
     isSelected: true
@@ -28,8 +35,8 @@ const rows = ref([
     id: 5,
     isSelected: false
   },
-]);
-
+  ];
+}
 
 function submitWord(word) {
   if (word.length != 5) {
@@ -53,6 +60,8 @@ function selectRow(id) {
       }
   })
 }
+
+startGame();
 </script>
 
 <template>

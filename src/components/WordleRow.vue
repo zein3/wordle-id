@@ -47,7 +47,7 @@ function userType(e) {
 
 <template>
   <div :class="selectionClass" class="flex flex-row my-1 p-2 bg-neutral-800">
-    <CharBox v-for="l in letters" :letter="l" />
-    <CharBox v-for="i in 5-letters.length" />
+    <CharBox v-for="l in letters" :letter="l" letterState="tbd"  />
+    <CharBox v-for="i in 5-letters.length" letterState="tbd" />
   </div>
 </template>
