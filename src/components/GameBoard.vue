@@ -1,11 +1,26 @@
 <script setup>
 import Row from './WordleRow.vue';
-import { ref } from 'vue';
+import { useWordleStore } from '../stores/wordle.js'
+import { ref, onUpdated, onMounted } from 'vue';
 
-const correctAnswer = 'hello';
+const wordleStore = useWordleStore();
 
 const currentId = ref(0);
 const rows = ref([]);
+
+
+onMounted(() => {
+  startGame();
+  wordleStore.startGame();
+});
+
+
+wordleStore.$subscribe((mutation, state) => {
+  if (!state.gameStarted) {
+    startGame();
+    wordleStore.startGame();
+  }
+});
 
 
 /**
@@ -55,9 +70,9 @@ function submitWord(word) {
   // do some process with word
   let newStatusCode = [];
   for (let i = 0; i < word.length; i++) {
-    if (word[i] === correctAnswer[i]) {
+    if (word[i] === wordleStore.word[i]) {
       newStatusCode.push("correct");
-    } else if (correctAnswer.includes(word[i])) {
+    } else if (wordleStore.word.includes(word[i])) {
       newStatusCode.push("present");
     } else {
       newStatusCode.push("absent");
@@ -74,7 +89,6 @@ function submitWord(word) {
 }
 
 function updateStatusCode(id, newStatusCode) {
-  console.log(newStatusCode);
   rows.value = rows.value.map((r) => {
     return (r.id === id)
       ? {
@@ -99,7 +113,6 @@ function selectRow(id) {
   })
 }
 
-startGame();
 </script>
 
 <template>

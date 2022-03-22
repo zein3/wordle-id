@@ -1,5 +1,6 @@
 <script setup>
 import CharBox from './WordleChar.vue';
+import { useWordleStore } from '../stores/wordle.js';
 import { ref, computed, onMounted } from 'vue';
 
 onMounted(() => {
@@ -17,9 +18,13 @@ const props = defineProps({
   }
 });
 
+const wordleStore = useWordleStore();
 const emit = defineEmits(['answer']);
-
 const letters = ref('');
+
+wordleStore.$subscribe((mutation, state) => {
+  letters.value = '';
+})
 
 const selectionClass = computed(() => {
   return (props.isSelected)
