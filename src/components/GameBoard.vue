@@ -2,38 +2,47 @@
 import Row from './WordleRow.vue';
 import { ref } from 'vue';
 
-const wordleWord = 'hello';
+const correctAnswer = 'hello';
 
 const currentId = ref(0);
 const rows = ref([]);
 
 
+/**
+  statusCode is used to tell the row components which letter should be colored black, yellow, or green.
+*/
 function startGame() {
   currentId.value = 0;
   rows.value = [
   {
     id: 0,
-    isSelected: true
+    isSelected: true,
+    statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   {
     id: 1,
-    isSelected: false
+    isSelected: false,
+    statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   {
     id: 2,
-    isSelected: false
+    isSelected: false,
+    statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   {
     id: 3,
-    isSelected: false
+    isSelected: false,
+    statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   {
     id: 4,
-    isSelected: false
+    isSelected: false,
+    statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   {
     id: 5,
-    isSelected: false
+    isSelected: false,
+    statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   ];
 }
@@ -43,13 +52,42 @@ function submitWord(word) {
     return;
   }
 
-  currentId.value = currentId.value + 1;
-  selectRow(currentId.value);
+  // do some process with word
+  let newStatusCode = [];
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === correctAnswer[i]) {
+      newStatusCode.push("correct");
+    } else if (correctAnswer.includes(word[i])) {
+      newStatusCode.push("present");
+    } else {
+      newStatusCode.push("absent");
+    }
+  }
+
+  rows.value[currentId] = {
+    ...rows.value[currentId],
+    statusCode: newStatusCode,
+  };
+
+  updateStatusCode(currentId.value, newStatusCode);
+  selectRow(++currentId.value);
+}
+
+function updateStatusCode(id, newStatusCode) {
+  console.log(newStatusCode);
+  rows.value = rows.value.map((r) => {
+    return (r.id === id)
+      ? {
+        ...r,
+        statusCode: newStatusCode,
+      }
+      : r;
+  })
 }
 
 function selectRow(id) {
   rows.value = rows.value.map((r) => {
-    return (r.id == id)
+    return (r.id === id)
       ? {
         ...r,
         isSelected: true,
@@ -70,6 +108,7 @@ startGame();
       v-for="row in rows"
       :key="row.id"
       :isSelected="row.isSelected"
+      :statusCode="row.statusCode"
       @answer="submitWord"
     />
   </div>

@@ -11,6 +11,10 @@ const props = defineProps({
     type: Boolean,
     required: true
   },
+  statusCode: {
+    type: Array,
+    required: true
+  }
 });
 
 const emit = defineEmits(['answer']);
@@ -25,7 +29,6 @@ const selectionClass = computed(() => {
 
 function userType(e) {
   if (props.isSelected) {
-    console.log(e);
     if (e.keyCode >= 65 && e.keyCode <= 90) {
       if (letters.value.length >= 5) {
         return;
@@ -43,11 +46,12 @@ function userType(e) {
   }
 }
 
+    /*<CharBox v-for="l in letters" :letter="l" letterState="tbd"  />*/
 </script>
 
 <template>
   <div :class="selectionClass" class="flex flex-row my-1 p-2 bg-neutral-800">
-    <CharBox v-for="l in letters" :letter="l" letterState="tbd"  />
+    <CharBox v-for="l in letters.length" :letter="letters[l-1]" :letterState="statusCode[l-1]" />
     <CharBox v-for="i in 5-letters.length" letterState="tbd" />
   </div>
 </template>
