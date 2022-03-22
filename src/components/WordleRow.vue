@@ -7,15 +7,13 @@ onMounted(() => {
 })
 
 const props = defineProps({
-  id: {
-    type: Number,
-    required: true
-  },
   isSelected: {
     type: Boolean,
     required: true
   },
 });
+
+const emit = defineEmits(['answer']);
 
 const letters = ref('');
 
@@ -27,13 +25,20 @@ const selectionClass = computed(() => {
 
 function userType(e) {
   if (props.isSelected) {
+    console.log(e);
     if (e.keyCode >= 65 && e.keyCode <= 90) {
       if (letters.value.length >= 5) {
         return;
       }
       letters.value = letters.value + e.key;
-    } else if (e.keyCode === 8) {
+    } 
+    // backspace
+    else if (e.keyCode === 8) {
       letters.value = letters.value.slice(0, letters.value.length-1);
+    }
+    // enter
+    else if (e.keyCode === 13) {
+      emit('answer', letters.value);
     }
   }
 }

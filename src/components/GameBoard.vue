@@ -2,6 +2,7 @@
 import Row from './WordleRow.vue';
 import { ref } from 'vue';
 
+const currentId = ref(0);
 const rows = ref([
   {
     id: 0,
@@ -30,6 +31,15 @@ const rows = ref([
 ]);
 
 
+function submitWord(word) {
+  if (word.length != 5) {
+    return;
+  }
+
+  currentId.value = currentId.value + 1;
+  selectRow(currentId.value);
+}
+
 function selectRow(id) {
   rows.value = rows.value.map((r) => {
     return (r.id == id)
@@ -49,9 +59,9 @@ function selectRow(id) {
   <div class="flex flex-col p-3 bg-gray-200" style="user-select: none; cursor: pointer;">
     <Row
       v-for="row in rows"
-      :id="row.id"
+      :key="row.id"
       :isSelected="row.isSelected"
-      @click="selectRow(row.id)"
+      @answer="submitWord"
     />
   </div>
 </template>
