@@ -11,14 +11,12 @@ const rows = ref([]);
 
 onMounted(() => {
   startGame();
-  wordleStore.startGame();
 });
 
 
 wordleStore.$subscribe((mutation, state) => {
   if (!state.gameStarted) {
     startGame();
-    wordleStore.startGame();
   }
 });
 
@@ -60,6 +58,11 @@ function startGame() {
     statusCode: ["tbd", "tbd", "tbd", "tbd", "tbd"],
   },
   ];
+
+  wordleStore.getNewWord();
+  wordleStore.startGame();
+
+  console.log(wordleStore.word);
 }
 
 function submitWord(word) {
