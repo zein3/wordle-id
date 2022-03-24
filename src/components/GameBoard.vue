@@ -1,7 +1,7 @@
 <script setup>
 import Row from './WordleRow.vue';
 import { useWordleStore } from '../stores/wordle.js'
-import { ref, onUpdated, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const wordleStore = useWordleStore();
 
@@ -65,6 +65,25 @@ function startGame() {
   console.log(wordleStore.word);
 }
 
+function numberOfLetter(word, letter) {
+  let count = 0;
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === letter) count++;
+  }
+
+  return count;
+}
+
+function numberOfCorrectLetter(word, letter) {
+  let count = 0;
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] !== letter) continue;
+    if (word[i] === wordleStore.word[i]) count++;
+  }
+
+  return count;
+}
+
 function submitWord(word) {
   if (word.length != 5) {
     return;
@@ -76,16 +95,20 @@ function submitWord(word) {
     if (word[i] === wordleStore.word[i]) {
       newStatusCode.push("correct");
     } else if (wordleStore.word.includes(word[i])) {
-      newStatusCode.push("present");
+      const nWord = numberOfLetter(wordleStore.word, word[i]);
+      const nCorrect = numberOfCorrectLetter(word, word[i]);
+      const nShown = numberOfLetter(word.slice(0, i), word[i]);
+
+      if (Math.abs(nShown - nCorrect) < (nWord - nCorrect)) {
+        newStatusCode.push("present");
+      } else {
+        newStatusCode.push("absent");
+      }
+
     } else {
       newStatusCode.push("absent");
     }
   }
-
-  rows.value[currentId] = {
-    ...rows.value[currentId],
-    statusCode: newStatusCode,
-  };
 
   updateStatusCode(currentId.value, newStatusCode);
   selectRow(++currentId.value);
