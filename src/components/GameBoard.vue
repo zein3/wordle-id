@@ -105,6 +105,7 @@ function submitWord(word) {
       const nCorrect = numberOfCorrectLetter(word, word[i]);
       const nShown = numberOfLetter(word.slice(0, i), word[i]);
 
+      // this works! but I don't know why
       if (Math.abs(nShown - nCorrect) < (nWord - nCorrect)) {
         newStatusCode.push("present");
       } else {

@@ -1,9 +1,9 @@
 # wordle-id
 
 ## About
-A wordle clone with Indonesian words made with VueJS.
-This is the project I made to learn VueJS.
-I made this project when I don't know anything about VueJS, so I have to figure stuff out by reading the documentation.
+A wordle clone with Indonesian words made with VueJS.  
+This is the project I made to learn VueJS.  
+I made this project when I don't know anything about VueJS, so I have to figure stuff out by reading the documentation.  
 
 ## Customize configuration
 
