@@ -1,10 +1,8 @@
 # wordle-id
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
+## About
+This is the project I made to learn VueJS.
+I made this project when I don't know anything about VueJS, so I have to figure stuff out by reading the documentation.
 
 ## Customize configuration
 
