@@ -1,10 +1,14 @@
 <script setup>
 import Row from './WordleRow.vue';
-import { useWordleStore } from '../stores/wordle.js'
+import WinModal from './modal/WinModal.vue';
+import LoseModal from './modal/LoseModal.vue';
+import { useWordleStore } from '../stores/wordle.js';
 import { ref, onMounted } from 'vue';
 
 const wordleStore = useWordleStore();
 
+const winModal = ref(false);
+const loseModal = ref(false);
 const currentId = ref(0);
 const rows = ref([]);
 
@@ -25,6 +29,8 @@ wordleStore.$subscribe((mutation, state) => {
   statusCode is used to tell the row components which letter should be colored black, yellow, or green.
 */
 function startGame() {
+  winModal.value = false;
+  loseModal.value = false;
   currentId.value = 0;
   rows.value = [
   {
@@ -111,7 +117,18 @@ function submitWord(word) {
   }
 
   updateStatusCode(currentId.value, newStatusCode);
+
+  if (wordleStore.word === word) {
+    selectRow(rows.value.length);
+    winModal.value = true;
+    return;
+  }
+
   selectRow(++currentId.value);
+
+  if (currentId.value === rows.value.length) {
+    loseModal.value = true;
+  }
 }
 
 function updateStatusCode(id, newStatusCode) {
@@ -151,4 +168,7 @@ function selectRow(id) {
       @answer="submitWord"
     />
   </div>
+
+  <WinModal v-if="winModal" />
+  <LoseModal v-if="loseModal" />
 </template>
