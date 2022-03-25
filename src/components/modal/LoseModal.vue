@@ -1,5 +1,6 @@
 <script setup>
 import Modal from './Modal.vue';
+import DangerButton from '../templates/buttons/danger.vue';
 import { useWordleStore } from '../../stores/wordle.js';
 
 const wordleStore = useWordleStore();
@@ -10,8 +11,10 @@ function restartGame() {
 </script>
 
 <template>
-  <Modal class="bg-red-500">
+  <Modal class="bg-gray-700">
     <h3>You lose!</h3>
-    <button @click="restartGame">Restart game</button>
+    <DangerButton @click="restartGame">
+      Play again
+    </DangerButton>
   </Modal>
 </template>
